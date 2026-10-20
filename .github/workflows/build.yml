@@ -18,7 +18,7 @@ jobs:
     - run: nuget restore SafeExamBrowser.sln
 
     # Setup/SetupBundle are skipped: they sign with ETH Zurich's certificate, which only they have.
-    - run: msbuild SafeExamBrowser.sln /verbosity:minimal /p:Configuration=Release /p:Platform=x64 /p:langversion=latest "/t:SafeExamBrowser_Runtime;SafeExamBrowser_Client;SafeExamBrowser_ResetUtility;SebWindowsConfig"
+    - run: msbuild SafeExamBrowser.sln /verbosity:minimal /p:Configuration=Release /p:Platform=x64 /p:langversion=latest "/t:SafeExamBrowser_Runtime;SafeExamBrowser_Client;SafeExamBrowser_ResetUtility;SafeExamBrowser_Service;SebWindowsConfig"
 
     - uses: actions/upload-artifact@v4
       with:
@@ -29,3 +29,8 @@ jobs:
       with:
         name: SebWindowsConfig-x64
         path: SebWindowsConfig/bin/x64/Release/
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: SafeExamBrowser-Service-x64
+        path: SafeExamBrowser.Service/bin/x64/Release/
