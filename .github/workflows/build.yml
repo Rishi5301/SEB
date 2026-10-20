@@ -1,0 +1,26 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v6
+
+    - uses: microsoft/setup-msbuild@v2
+
+    - uses: nuget/setup-nuget@v2
+
+    - run: nuget restore SafeExamBrowser.sln
+
+    # Setup/SetupBundle are skipped: they sign with ETH Zurich's certificate, which only they have.
+    - run: msbuild SafeExamBrowser.sln /verbosity:minimal /p:Configuration=Release /p:Platform=x64 /p:langversion=latest "/t:SafeExamBrowser_Runtime;SafeExamBrowser_Client;SafeExamBrowser_ResetUtility;SebWindowsConfig"
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: SafeExamBrowser-x64
+        path: SafeExamBrowser.Runtime/bin/x64/Release/
