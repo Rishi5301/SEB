@@ -33,8 +33,20 @@ jobs:
         languages: ${{ matrix.language }}
         queries: security-extended,security-and-quality
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v4
+    # CodeQL's autobuild cannot auto-detect this .NET Framework solution, so build C# manually.
+    - name: Setup MSBuild
+      if: matrix.language == 'csharp'
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup NuGet
+      if: matrix.language == 'csharp'
+      uses: nuget/setup-nuget@v2
+
+    - name: Build solution
+      if: matrix.language == 'csharp'
+      run: |
+        nuget restore SafeExamBrowser.sln
+        msbuild SafeExamBrowser.sln /verbosity:minimal /p:Configuration=Release /p:Platform=x64 /p:langversion=latest "/t:SafeExamBrowser_Runtime;SafeExamBrowser_Client;SafeExamBrowser_ResetUtility;SebWindowsConfig"
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v4
