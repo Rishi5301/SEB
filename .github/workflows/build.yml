@@ -24,3 +24,8 @@ jobs:
       with:
         name: SafeExamBrowser-x64
         path: SafeExamBrowser.Runtime/bin/x64/Release/
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: SebWindowsConfig-x64
+        path: SebWindowsConfig/bin/x64/Release/
