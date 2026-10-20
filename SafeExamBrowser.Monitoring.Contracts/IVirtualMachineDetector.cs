@@ -16,6 +16,6 @@ namespace SafeExamBrowser.Monitoring.Contracts
 		/// <summary>
 		/// Indicates whether the computer system is in fact a virtual machine.
 		/// </summary>
-		bool IsVirtualMachine();
+		bool IsVirtualMachine{get;}
 	}
 }

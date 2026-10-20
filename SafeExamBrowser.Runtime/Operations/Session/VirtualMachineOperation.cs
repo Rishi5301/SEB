@@ -48,7 +48,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 			Logger.Info($"Validating virtual machine policy...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_ValidateVirtualMachinePolicy);
 
-			if (Context.Next.Settings.Security.VirtualMachinePolicy == VirtualMachinePolicy.Deny && detector.IsVirtualMachine())
+			if (Context.Next.Settings.Security.VirtualMachinePolicy == VirtualMachinePolicy.Deny && detector.IsVirtualMachine)
 			{
 				result = OperationResult.Aborted;
 				Logger.Error("Detected virtual machine while SEB is not allowed to be run in a virtual machine! Aborting...");
